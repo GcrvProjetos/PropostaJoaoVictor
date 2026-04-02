@@ -1,0 +1,1781 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>João Vitor · Estratégia de Crédito · Áxima</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0E1117;
+    --ink-2: #1C2230;
+    --off-white: #F4F2ED;
+    --cream: #EDE9E0;
+    --axima-green: #2DBF4E;
+    --axima-teal: #1A8FA0;
+    --axima-navy: #0D3B5E;
+    --gold: #C9A84C;
+    --gold-light: #E8C96A;
+    --text-muted: #6B7280;
+    --text-light: #9CA3AF;
+    --border: rgba(255,255,255,0.08);
+    --border-dark: rgba(0,0,0,0.1);
+    --card-dark: rgba(255,255,255,0.04);
+    --card-hover: rgba(255,255,255,0.07);
+    --radius: 2px;
+    --radius-lg: 4px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--ink);
+    color: var(--off-white);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ─── TYPOGRAPHY ─── */
+  .serif { font-family: 'Cormorant Garamond', serif; }
+  .mono { font-family: 'DM Mono', monospace; }
+
+  h1, h2, h3 { font-family: 'Cormorant Garamond', serif; font-weight: 300; letter-spacing: -0.01em; }
+
+  /* ─── UTILITY ─── */
+  .container { max-width: 1160px; margin: 0 auto; padding: 0 32px; }
+  .container--wide { max-width: 1320px; margin: 0 auto; padding: 0 32px; }
+
+  .tag {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--axima-green); font-family: 'DM Mono', monospace;
+    border: 1px solid rgba(45,191,78,0.3); padding: 4px 12px;
+    border-radius: 2px;
+  }
+
+  .tag-gold {
+    color: var(--gold); border-color: rgba(201,168,76,0.3);
+  }
+
+  .divider {
+    width: 40px; height: 1px; background: var(--axima-green);
+    margin: 20px 0;
+  }
+
+  .divider--gold { background: var(--gold); }
+
+  /* ─── REVEAL ANIMATIONS ─── */
+  .reveal {
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 0.7s cubic-bezier(.25,.46,.45,.94), transform 0.7s cubic-bezier(.25,.46,.45,.94);
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-left {
+    opacity: 0; transform: translateX(-24px);
+    transition: opacity 0.7s cubic-bezier(.25,.46,.45,.94), transform 0.7s cubic-bezier(.25,.46,.45,.94);
+  }
+  .reveal-left.visible { opacity: 1; transform: translateX(0); }
+  .reveal-right {
+    opacity: 0; transform: translateX(24px);
+    transition: opacity 0.7s cubic-bezier(.25,.46,.45,.94), transform 0.7s cubic-bezier(.25,.46,.45,.94);
+  }
+  .reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 20px 32px;
+    display: flex; align-items: center; justify-content: space-between;
+    transition: background 0.4s, backdrop-filter 0.4s, padding 0.4s;
+  }
+  nav.scrolled {
+    background: rgba(14,17,23,0.92);
+    backdrop-filter: blur(20px);
+    padding: 14px 32px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    display: flex; align-items: center; gap: 10px;
+    text-decoration: none;
+  }
+
+  .nav-logo-icon {
+    height: 28px; width: auto;
+  }
+
+  .nav-logo-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px; font-weight: 400;
+    color: var(--off-white);
+    letter-spacing: 0.02em;
+  }
+
+  .nav-cta {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--axima-green); color: var(--ink);
+    font-size: 12px; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase;
+    text-decoration: none;
+    padding: 10px 20px; border-radius: var(--radius);
+    transition: background 0.2s, transform 0.2s;
+  }
+  .nav-cta:hover { background: #3FD962; transform: translateY(-1px); }
+
+  /* ─── HERO ─── */
+  #hero {
+    position: relative; min-height: 100vh;
+    display: flex; align-items: flex-end;
+    padding-bottom: 80px;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: 
+      radial-gradient(ellipse 80% 60% at 70% 30%, rgba(26,143,160,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 40% at 20% 80%, rgba(45,191,78,0.08) 0%, transparent 50%),
+      linear-gradient(160deg, #0E1117 0%, #0D1520 50%, #0A1A1A 100%);
+  }
+
+  .hero-grid {
+    position: absolute; inset: 0; opacity: 0.04;
+    background-image: 
+      linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px);
+    background-size: 80px 80px;
+  }
+
+  .hero-noise {
+    position: absolute; inset: 0; opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  }
+
+  .hero-accent {
+    position: absolute; top: 15%; right: -5%;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(45,191,78,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-number {
+    position: absolute; right: 40px; top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(180px, 22vw, 320px);
+    font-weight: 300; line-height: 1;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(255,255,255,0.04);
+    pointer-events: none; user-select: none;
+    letter-spacing: -0.05em;
+  }
+
+  .hero-content { position: relative; z-index: 2; }
+
+  .hero-eyebrow {
+    display: flex; align-items: center; gap: 16px;
+    margin-bottom: 32px;
+    opacity: 0; animation: fadeUp 0.8s 0.2s forwards;
+  }
+
+  .hero-line { width: 60px; height: 1px; background: var(--axima-green); }
+
+  .hero-eyebrow-text {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--axima-green);
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(52px, 7vw, 96px);
+    font-weight: 300; line-height: 0.95;
+    letter-spacing: -0.02em;
+    margin-bottom: 28px;
+    opacity: 0; animation: fadeUp 0.8s 0.4s forwards;
+  }
+
+  .hero-title em { font-style: italic; color: var(--axima-green); }
+
+  .hero-subtitle {
+    font-size: clamp(15px, 1.8vw, 19px);
+    color: rgba(244,242,237,0.6);
+    max-width: 520px; line-height: 1.7; font-weight: 300;
+    margin-bottom: 48px;
+    opacity: 0; animation: fadeUp 0.8s 0.6s forwards;
+  }
+
+  .hero-actions {
+    display: flex; align-items: center; gap: 24px; flex-wrap: wrap;
+    opacity: 0; animation: fadeUp 0.8s 0.8s forwards;
+  }
+
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--axima-green); color: var(--ink);
+    font-size: 13px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase;
+    text-decoration: none;
+    padding: 16px 32px; border-radius: var(--radius);
+    transition: all 0.25s;
+  }
+  .btn-primary:hover { background: #3FD962; transform: translateY(-2px); box-shadow: 0 12px 40px rgba(45,191,78,0.25); }
+
+  .btn-ghost {
+    display: inline-flex; align-items: center; gap: 8px;
+    color: var(--off-white); font-size: 13px; font-weight: 400;
+    letter-spacing: 0.04em; text-decoration: none;
+    border-bottom: 1px solid rgba(244,242,237,0.3);
+    padding-bottom: 2px;
+    transition: all 0.2s;
+  }
+  .btn-ghost:hover { color: var(--axima-green); border-color: var(--axima-green); }
+
+  .hero-stats {
+    position: absolute; right: 40px; bottom: 80px;
+    display: flex; flex-direction: column; gap: 24px;
+    opacity: 0; animation: fadeLeft 0.8s 1s forwards;
+  }
+
+  .hero-exclusive {
+    position: absolute; right: 40px; top: 120px;
+    text-align: right;
+    opacity: 0; animation: fadeLeft 0.8s 0.9s forwards;
+  }
+
+  .hero-exclusive-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--text-muted); margin-bottom: 6px;
+  }
+
+  .hero-exclusive-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; font-weight: 300; color: var(--off-white);
+    line-height: 1.1;
+  }
+
+  .hero-exclusive-name em {
+    font-style: italic; color: var(--axima-green);
+  }
+
+  .hero-exclusive-line {
+    width: 100%; height: 1px;
+    background: linear-gradient(to left, rgba(45,191,78,0.4), transparent);
+    margin-top: 10px;
+  }
+
+  .hero-stat {
+    text-align: right;
+  }
+
+  .hero-stat-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px; font-weight: 300; line-height: 1;
+    color: var(--off-white);
+  }
+
+  .hero-stat-label {
+    font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--text-muted); font-family: 'DM Mono', monospace;
+    margin-top: 4px;
+  }
+
+  .hero-stat-sep { width: 100%; height: 1px; background: var(--border); }
+
+  /* ─── SCROLL INDICATOR ─── */
+  .scroll-indicator {
+    position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    opacity: 0; animation: fadeUp 0.6s 1.4s forwards;
+    cursor: pointer;
+  }
+
+  .scroll-indicator-text {
+    font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--text-muted); font-family: 'DM Mono', monospace;
+  }
+
+  .scroll-indicator-line {
+    width: 1px; height: 40px;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.2), transparent);
+    animation: scrollPulse 2s infinite;
+  }
+
+  /* ─── GEOVANNA SECTION ─── */
+  #geovanna {
+    padding: 120px 0;
+    background: linear-gradient(180deg, var(--ink) 0%, var(--ink-2) 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .geo-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px; align-items: center;
+  }
+
+  .geo-photos {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 12px;
+    position: relative;
+  }
+
+  .geo-photo-main {
+    grid-column: 1;
+    grid-row: 1 / 3;
+  }
+
+  .geo-photo-secondary {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .geo-photo-card {
+    grid-column: 2;
+    grid-row: 2;
+    background: rgba(45,191,78,0.05);
+    border: 1px solid rgba(45,191,78,0.15);
+    border-radius: var(--radius);
+    padding: 20px;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+
+  .geo-photo img {
+    width: 100%; height: 100%; object-fit: cover;
+    border-radius: var(--radius);
+    display: block;
+  }
+
+  .geo-photo-main img { height: 420px; }
+  .geo-photo-secondary img { height: 200px; }
+
+  .geo-photo-overlay {
+    position: relative;
+  }
+  .geo-photo-overlay::after {
+    content: '';
+    position: absolute; inset: 0;
+    border-radius: var(--radius);
+    border: 1px solid rgba(255,255,255,0.06);
+    pointer-events: none;
+  }
+
+  .geo-stat-mini {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 40px; font-weight: 300; color: var(--axima-green);
+    line-height: 1;
+  }
+
+  .geo-stat-mini-label {
+    font-size: 11px; color: var(--text-muted); margin-top: 4px;
+    letter-spacing: 0.05em;
+  }
+
+  .geo-content { }
+
+  .geo-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(40px, 4vw, 60px);
+    font-weight: 300; line-height: 1;
+    margin: 16px 0 8px;
+  }
+
+  .geo-role {
+    font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--text-muted); font-family: 'DM Mono', monospace;
+    margin-bottom: 28px;
+  }
+
+  .geo-bio {
+    font-size: 16px; line-height: 1.75; color: rgba(244,242,237,0.7);
+    font-weight: 300; margin-bottom: 32px;
+  }
+
+  .geo-badges {
+    display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 36px;
+  }
+
+  .geo-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 11px; color: rgba(244,242,237,0.6);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 6px 14px; border-radius: 2px;
+  }
+
+  .geo-badge-dot {
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--axima-green);
+  }
+
+  /* ─── CONTEXT / STRATEGY ─── */
+  #estrategia {
+    padding: 120px 0;
+    background: var(--ink-2);
+    position: relative; overflow: hidden;
+  }
+
+  .estrategia-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 50% at 80% 50%, rgba(45,191,78,0.05) 0%, transparent 60%);
+  }
+
+  .estrategia-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 100px; align-items: start;
+  }
+
+  .estrategia-left { position: sticky; top: 120px; }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--axima-green);
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 4vw, 56px);
+    font-weight: 300; line-height: 1.05;
+    margin: 12px 0 20px;
+  }
+
+  .section-desc {
+    font-size: 16px; line-height: 1.75; color: rgba(244,242,237,0.6);
+    font-weight: 300;
+  }
+
+  .pillar {
+    padding: 28px 0;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+
+  .pillar:first-child { border-top: 1px solid var(--border); }
+
+  .pillar-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; color: var(--axima-green); letter-spacing: 0.1em;
+    margin-bottom: 8px;
+  }
+
+  .pillar-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; font-weight: 400; margin-bottom: 10px;
+  }
+
+  .pillar-text {
+    font-size: 14px; line-height: 1.7; color: rgba(244,242,237,0.55);
+    font-weight: 300;
+  }
+
+  .pillar-icon {
+    position: absolute; right: 0; top: 28px;
+    font-size: 20px; opacity: 0.3;
+  }
+
+  /* ─── PROPOSALS ─── */
+  #propostas { padding: 120px 0; background: var(--ink); }
+
+  .proposta-header {
+    text-align: center; max-width: 640px; margin: 0 auto 80px;
+  }
+
+  .propostas-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .proposta-card {
+    background: var(--card-dark);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.3s;
+    position: relative;
+  }
+
+  .proposta-card:hover {
+    border-color: rgba(45,191,78,0.3);
+    transform: translateY(-4px);
+  }
+
+  .proposta-card--destaque {
+    border-color: rgba(45,191,78,0.2);
+  }
+
+  .proposta-card--destaque::before {
+    content: 'RECOMENDADA';
+    position: absolute; top: 20px; right: 20px;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px; letter-spacing: 0.2em;
+    color: var(--ink); background: var(--axima-green);
+    padding: 4px 10px; border-radius: 2px;
+  }
+
+  .proposta-header-card {
+    padding: 32px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(255,255,255,0.02);
+  }
+
+  .proposta-grupo {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; letter-spacing: 0.15em; color: var(--text-muted);
+    text-transform: uppercase; margin-bottom: 8px;
+  }
+
+  .proposta-credito {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 52px; font-weight: 300; line-height: 1;
+    color: var(--off-white);
+  }
+
+  .proposta-credito span {
+    font-size: 20px; color: var(--text-muted); vertical-align: top;
+    margin-right: 4px; margin-top: 8px; display: inline-block;
+  }
+
+  .proposta-desc {
+    font-size: 13px; color: var(--text-muted); margin-top: 8px;
+  }
+
+  .proposta-body { padding: 32px; }
+
+  .proposta-section-title {
+    font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--text-muted); font-family: 'DM Mono', monospace;
+    margin-bottom: 16px;
+  }
+
+  .parcelas-grid {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 2px; margin-bottom: 32px;
+  }
+
+  .parcela-item {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    padding: 16px; text-align: center;
+    border-radius: 2px;
+  }
+
+  .parcela-phase {
+    font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--text-muted); margin-bottom: 6px;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .parcela-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; font-weight: 300; color: var(--off-white);
+    line-height: 1;
+  }
+
+  .parcela-period {
+    font-size: 9px; color: var(--text-muted); margin-top: 4px;
+  }
+
+  .proposta-dados {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 16px; margin-bottom: 28px;
+  }
+
+  .dado-item {}
+
+  .dado-label {
+    font-size: 10px; color: var(--text-muted); letter-spacing: 0.08em;
+    text-transform: uppercase; margin-bottom: 4px;
+  }
+
+  .dado-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px; font-weight: 300; color: var(--off-white);
+  }
+
+  .dado-value--green { color: var(--axima-green); }
+  .dado-value--gold { color: var(--gold); }
+
+  .taxa-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(45,191,78,0.08); border: 1px solid rgba(45,191,78,0.2);
+    color: var(--axima-green);
+    font-size: 11px; padding: 4px 10px; border-radius: 2px;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .taxa-old {
+    text-decoration: line-through;
+    color: var(--text-muted); margin-right: 4px;
+  }
+
+  .historico { margin-bottom: 28px; }
+
+  .historico-title {
+    font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--text-muted); font-family: 'DM Mono', monospace;
+    margin-bottom: 12px;
+  }
+
+  .historico-items { display: flex; flex-direction: column; gap: 8px; }
+
+  .historico-item {
+    display: flex; align-items: flex-start; gap: 10px;
+    font-size: 13px; color: rgba(244,242,237,0.6); line-height: 1.5;
+  }
+
+  .historico-bullet {
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--axima-green); flex-shrink: 0;
+    margin-top: 6px;
+  }
+
+  .historico-bullet--gold { background: var(--gold); }
+
+  .lancamento-bar {
+    margin-top: 16px;
+    padding: 16px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border); border-radius: 2px;
+  }
+
+  .lancamento-months {
+    display: flex; gap: 4px; flex-wrap: wrap;
+  }
+
+  .lancamento-month {
+    display: flex; align-items: center; gap: 4px;
+    font-size: 10px; padding: 3px 8px;
+    background: rgba(45,191,78,0.1);
+    border: 1px solid rgba(45,191,78,0.2);
+    border-radius: 2px; color: var(--axima-green);
+    font-family: 'DM Mono', monospace;
+  }
+
+  .lancamento-month-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--axima-green); display: flex; align-items: center;
+    justify-content: center; font-size: 7px; color: var(--ink); font-weight: 700;
+  }
+
+  /* ─── COMPARATIVO ─── */
+  #comparativo { padding: 120px 0; background: var(--ink-2); }
+
+  .comp-header { text-align: center; max-width: 640px; margin: 0 auto 60px; }
+
+  .comp-table {
+    background: var(--card-dark);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .comp-row {
+    display: grid; grid-template-columns: 2fr 1fr 1fr;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.2s;
+  }
+
+  .comp-row:last-child { border-bottom: none; }
+  .comp-row:hover { background: var(--card-hover); }
+
+  .comp-header-row {
+    background: rgba(255,255,255,0.03);
+  }
+
+  .comp-cell {
+    padding: 20px 28px;
+    display: flex; align-items: center;
+    border-right: 1px solid var(--border);
+  }
+
+  .comp-cell:last-child { border-right: none; }
+
+  .comp-criterion {
+    font-size: 14px; font-weight: 400; color: var(--off-white);
+  }
+
+  .comp-header-label {
+    font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--text-muted); font-family: 'DM Mono', monospace;
+  }
+
+  .comp-value {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 14px; color: rgba(244,242,237,0.7);
+  }
+
+  .comp-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+  }
+
+  .dot-green { background: var(--axima-green); }
+  .dot-yellow { background: #F5A623; }
+  .dot-blue { background: var(--axima-teal); }
+  .dot-gray { background: var(--text-muted); }
+
+  /* ─── TRANSPARÊNCIA / EDUCAÇÃO ─── */
+  #transparencia { padding: 120px 0; background: var(--ink); }
+
+  .transp-header { max-width: 540px; margin-bottom: 64px; }
+
+  .transp-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .transp-card {
+    background: var(--card-dark);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+
+  .transp-card:hover {
+    border-color: rgba(45,191,78,0.2);
+    transform: translateY(-3px);
+  }
+
+  .transp-card-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px; color: var(--axima-green); letter-spacing: 0.2em;
+    margin-bottom: 20px;
+  }
+
+  .transp-card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px; font-weight: 400; margin-bottom: 12px;
+  }
+
+  .transp-card-text {
+    font-size: 14px; line-height: 1.7; color: rgba(244,242,237,0.55);
+    font-weight: 300;
+  }
+
+  .transp-icon {
+    width: 40px; height: 40px; margin-bottom: 16px;
+    display: flex; align-items: center;
+  }
+
+  /* ─── CONTRATO ─── */
+  #contrato { padding: 120px 0; background: var(--ink-2); position: relative; overflow: hidden; }
+
+  .contrato-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 80px; align-items: center;
+  }
+
+  .contrato-visual {
+    position: relative; padding: 40px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+  }
+
+  .contrato-badge-list {
+    display: flex; flex-direction: column; gap: 20px;
+  }
+
+  .contrato-badge-item {
+    display: flex; align-items: flex-start; gap: 16px;
+    padding: 20px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    transition: border-color 0.25s;
+  }
+
+  .contrato-badge-item:hover { border-color: rgba(45,191,78,0.25); }
+
+  .contrato-badge-icon {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: rgba(45,191,78,0.1);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    border: 1px solid rgba(45,191,78,0.2);
+  }
+
+  .contrato-badge-title {
+    font-size: 14px; font-weight: 500; margin-bottom: 4px;
+  }
+
+  .contrato-badge-text {
+    font-size: 13px; color: rgba(244,242,237,0.5); line-height: 1.6;
+  }
+
+  .info-list { display: flex; flex-direction: column; gap: 16px; }
+
+  .info-item {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 16px 0; border-bottom: 1px solid var(--border);
+  }
+
+  .info-item:last-child { border-bottom: none; }
+
+  .info-arrow {
+    color: var(--axima-green); font-size: 16px; flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .info-title { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
+
+  .info-text {
+    font-size: 13px; color: rgba(244,242,237,0.5); line-height: 1.6;
+  }
+
+  /* ─── CTA FINAL ─── */
+  #cta {
+    padding: 140px 0;
+    background: linear-gradient(180deg, var(--ink) 0%, #081510 100%);
+    text-align: center; position: relative; overflow: hidden;
+  }
+
+  .cta-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(45,191,78,0.07) 0%, transparent 70%);
+  }
+
+  .cta-content { position: relative; z-index: 2; }
+
+  .cta-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--axima-green); margin-bottom: 20px;
+  }
+
+  .cta-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(48px, 6vw, 80px);
+    font-weight: 300; line-height: 1.05;
+    letter-spacing: -0.02em;
+    max-width: 800px; margin: 0 auto 24px;
+  }
+
+  .cta-subtitle {
+    font-size: 17px; color: rgba(244,242,237,0.55);
+    max-width: 500px; margin: 0 auto 48px; line-height: 1.7; font-weight: 300;
+  }
+
+  .cta-btn {
+    display: inline-flex; align-items: center; gap: 12px;
+    background: var(--axima-green); color: var(--ink);
+    font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+    text-decoration: none;
+    padding: 20px 48px; border-radius: var(--radius);
+    transition: all 0.25s;
+    box-shadow: 0 0 60px rgba(45,191,78,0.2);
+  }
+
+  .cta-btn:hover {
+    background: #3FD962;
+    transform: translateY(-3px);
+    box-shadow: 0 20px 60px rgba(45,191,78,0.3);
+  }
+
+  .cta-note {
+    margin-top: 24px; font-size: 12px;
+    color: rgba(244,242,237,0.3); letter-spacing: 0.03em;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    padding: 48px 0;
+    border-top: 1px solid var(--border);
+    background: var(--ink);
+  }
+
+  .footer-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 16px;
+  }
+
+  .footer-logo-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px; color: rgba(244,242,237,0.4);
+    letter-spacing: 0.03em;
+  }
+
+  .footer-note {
+    font-size: 12px; color: rgba(244,242,237,0.25);
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.05em;
+  }
+
+  /* ─── KEYFRAMES ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeLeft {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(1); }
+    50% { opacity: 1; transform: scaleY(1.1); }
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    .geo-grid, .estrategia-grid, .contrato-grid,
+    .propostas-grid, .transp-grid { grid-template-columns: 1fr; gap: 48px; }
+
+    .geo-photos { grid-template-columns: 1fr; }
+    .geo-photo-main { grid-column: 1; grid-row: 1; }
+    .geo-photo-main img { height: 300px; }
+    .geo-photo-secondary { display: none; }
+    .geo-photo-card { grid-column: 1; grid-row: 2; }
+
+    .hero-stats { display: none; }
+    .hero-number { display: none; }
+    .hero-exclusive { display: none; }
+
+    .estrategia-left { position: static; }
+
+    .comp-row { grid-template-columns: 1.5fr 1fr 1fr; }
+    .comp-cell { padding: 14px 16px; }
+
+    .parcelas-grid { grid-template-columns: 1fr; }
+
+    nav { padding: 16px 20px; }
+    .container, .container--wide { padding: 0 20px; }
+  }
+
+  @media (max-width: 600px) {
+    .hero-title { font-size: 48px; }
+    .hero-actions { flex-direction: column; align-items: flex-start; }
+    .comp-row { grid-template-columns: 1.5fr 1fr 1fr; }
+    .comp-header-label { font-size: 9px; }
+    .transp-grid { grid-template-columns: 1fr; }
+    .proposta-dados { grid-template-columns: 1fr; }
+    .nav-cta { display: none; }
+    #cta { padding: 80px 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ─── NAV ─── -->
+<nav id="main-nav">
+  <a href="#hero" class="nav-logo">
+
+    <span class="nav-logo-text">Áxima · Consultoria Financeira</span>
+  </a>
+  <a href="https://wa.me/5517996592912?text=Vamos%20come%C3%A7ar%20%F0%9F%9A%80" class="nav-cta" target="_blank">
+    Quero Avançar →
+  </a>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-noise"></div>
+  <div class="hero-accent"></div>
+
+  <div style="
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 70%;
+    max-width: 860px;
+    pointer-events: none;
+    user-select: none;
+    opacity: 0.045;
+    filter: grayscale(1) brightness(10);
+  ">
+    <img src="https://i.ibb.co/fVStvtYS/1-removebg-preview.png" alt="" style="width:100%;display:block;">
+  </div>
+
+  <div class="container" style="position:relative;z-index:2;">
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <div class="hero-line"></div>
+        <span class="hero-eyebrow-text">Estratégia Imobiliária · Rodobens · 2026</span>
+      </div>
+      <h1 class="hero-title">
+        Seu imóvel,<br>
+        <em>estruturado</em><br>
+        com estratégia.
+      </h1>
+      <p class="hero-subtitle">
+        Estrutura de crédito desenhada para ampliar o poder de compra de João Vitor e garantir segurança financeira na continuidade da reforma da sua casa própria em Uchoa.
+      </p>
+      <div class="hero-actions">
+        <a href="#propostas" class="btn-primary">
+          Ver as Propostas
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="#geovanna" class="btn-ghost">
+          Conhecer a consultora
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-exclusive">
+    <div class="hero-exclusive-label">Proposta exclusiva para</div>
+    <div class="hero-exclusive-name"><em>João Vitor</em></div>
+    <div class="hero-exclusive-line"></div>
+  </div>
+
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="hero-stat-value">R$ 500k</div>
+      <div class="hero-stat-label">Crédito Proposta 1</div>
+    </div>
+    <div class="hero-stat-sep"></div>
+    <div class="hero-stat">
+      <div class="hero-stat-value">R$ 350k</div>
+      <div class="hero-stat-label">Crédito Proposta 2</div>
+    </div>
+    <div class="hero-stat-sep"></div>
+    <div class="hero-stat">
+      <div class="hero-stat-value">120m</div>
+      <div class="hero-stat-label">Prazo do cliente</div>
+    </div>
+  </div>
+
+  <div class="scroll-indicator" onclick="document.getElementById('geovanna').scrollIntoView({behavior:'smooth'})">
+    <span class="scroll-indicator-text">Role para explorar</span>
+    <div class="scroll-indicator-line"></div>
+  </div>
+</section>
+
+<!-- ─── GEOVANNA ─── -->
+<section id="geovanna">
+  <div class="container">
+    <div class="geo-grid">
+      <div class="geo-photos reveal-left">
+        <div class="geo-photo geo-photo-main geo-photo-overlay">
+          <img src="https://i.ibb.co/TBMTLT2R/Whats-App-Image-2026-04-02-at-19-08-43-1.jpg" alt="Geovanna - Áxima">
+        </div>
+        <div class="geo-photo geo-photo-secondary geo-photo-overlay">
+          <img src="https://i.ibb.co/wh9shYL6/Whats-App-Image-2026-04-02-at-19-08-43.jpg" alt="Geovanna - Áxima Consultoria">
+        </div>
+        <div class="geo-photo-card">
+          <div class="geo-stat-mini">+6 anos</div>
+          <div class="geo-stat-mini-label">de experiência combinada</div>
+        </div>
+      </div>
+
+      <div class="geo-content reveal-right">
+        <div class="tag">Sua Consultora</div>
+        <h2 class="geo-name">Geovanna</h2>
+        <div class="geo-role">Gestora Comercial · Alta Performance</div>
+
+        <p class="geo-bio">
+          Atuo há mais de 2 anos no mercado de crédito e investimento imobiliário, com mais de 4 anos de experiência na construção civil. Minha especialidade é desenhar estratégias que realmente façam sentido para o momento de cada cliente — utilizando o crédito de forma inteligente para aquisição de imóveis e construção de patrimônio.
+        </p>
+        <p class="geo-bio">
+          Tenho uma abordagem prática, consultiva e extremamente clara. Foco em dar segurança para decisões importantes — sem promessas irreais, sem atalhos. Hoje faço parte da Áxima, onde conduzimos nossos clientes de ponta a ponta, com estratégia, acompanhamento próximo e visão de longo prazo.
+        </p>
+
+        <div class="geo-badges">
+          <div class="geo-badge"><div class="geo-badge-dot"></div>Crédito Imobiliário</div>
+          <div class="geo-badge"><div class="geo-badge-dot"></div>Planejamento Estratégico</div>
+          <div class="geo-badge"><div class="geo-badge-dot"></div>Construção Civil</div>
+          <div class="geo-badge"><div class="geo-badge-dot"></div>Consórcio Rodobens</div>
+          <div class="geo-badge"><div class="geo-badge-dot"></div>Alavancagem Patrimonial</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── ESTRATÉGIA ─── -->
+<section id="estrategia">
+  <div class="estrategia-bg"></div>
+  <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:60%;max-width:700px;pointer-events:none;user-select:none;opacity:0.035;filter:grayscale(1) brightness(10);">
+    <img src="https://i.ibb.co/fVStvtYS/1-removebg-preview.png" alt="" style="width:100%;display:block;">
+  </div>
+  <div class="container">
+    <div class="estrategia-grid">
+      <div class="estrategia-left reveal-left">
+        <div class="section-label">Abordagem Consultiva</div>
+        <h2 class="section-title">Não vendemos<br>consórcio.<br><em>Vendemos estratégia.</em></h2>
+        <div class="divider"></div>
+        <p class="section-desc">
+          Cada proposta aqui é o resultado de análise detalhada do seu momento financeiro, do histórico dos grupos e do uso inteligente do capital disponível. A diferença entre uma compra comum e uma decisão patrimonial está na estrutura.
+        </p>
+      </div>
+
+      <div class="reveal-right">
+        <div class="pillar">
+          <div class="pillar-num">01 —</div>
+          <div class="pillar-title">Uso inteligente do crédito</div>
+          <p class="pillar-text">O crédito não é um benefício passivo — é uma alavanca ativa. Estruturamos o uso para maximizar o poder de compra real, combinando capital próprio e crédito embutido de forma calculada.</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar-num">02 —</div>
+          <div class="pillar-title">Redução estratégica do saldo devedor</div>
+          <p class="pillar-text">Ao usar o lance para antecipação, reduzimos expressivamente o saldo devedor e as parcelas futuras — criando uma estrutura financeira muito mais leve e sustentável ao longo do tempo.</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar-num">03 —</div>
+          <div class="pillar-title">Probabilidade estruturada, não promessa</div>
+          <p class="pillar-text">Analisamos o histórico real de contemplações de cada grupo — número de concorrentes, frequência, ciclos recorrentes — para construir uma expectativa fundamentada, nunca uma garantia vazia.</p>
+        </div>
+        <div class="pillar">
+          <div class="pillar-num">04 —</div>
+          <div class="pillar-title">Acompanhamento de ponta a ponta</div>
+          <p class="pillar-text">Desde a escolha do grupo até a gestão do imóvel contemplado. A Áxima é responsável por análise, execução de lance, acompanhamento de pagamentos e suporte completo.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PROPOSTAS ─── -->
+<section id="propostas">
+  <div class="container">
+    <div class="proposta-header reveal">
+      <div class="section-label" style="margin-bottom:12px;">As Estratégias</div>
+      <h2 class="section-title" style="font-size:clamp(36px,4vw,52px);">Duas propostas.<br>Uma decisão estratégica.</h2>
+      <p style="font-size:15px;color:rgba(244,242,237,0.5);margin-top:16px;line-height:1.7;">
+        Cada proposta foi desenhada com objetivos e perfis de risco distintos. Compare e escolha com clareza.
+      </p>
+    </div>
+
+    <div class="propostas-grid">
+
+      <!-- PROPOSTA 1 -->
+      <div class="proposta-card proposta-card--destaque reveal-left">
+        <div class="proposta-header-card">
+          <div class="proposta-grupo">Grupo 1860 · Rodobens</div>
+          <div class="proposta-credito"><span>R$</span>500.000</div>
+          <div class="proposta-desc">Crédito total disponível · Estratégia Equilibrada</div>
+          <div style="margin-top:14px;">
+            <div class="taxa-badge">
+              <span class="taxa-old">28,5%</span> → 17% taxa adm.
+            </div>
+          </div>
+        </div>
+
+        <div class="proposta-body">
+          <div class="proposta-section-title">Estrutura de Parcelas</div>
+          <div class="parcelas-grid">
+            <div class="parcela-item">
+              <div class="parcela-phase">Pré-contempl.</div>
+              <div class="parcela-value">R$ 4.098</div>
+              <div class="parcela-period">Parcelas 1ª – 60ª</div>
+            </div>
+            <div class="parcela-item" style="border-color:rgba(45,191,78,0.3);">
+              <div class="parcela-phase">Pós-contempl.</div>
+              <div class="parcela-value" style="color:var(--axima-green);">R$ 2.786</div>
+              <div class="parcela-period">Parcelas 4ª – 60ª</div>
+            </div>
+            <div class="parcela-item">
+              <div class="parcela-phase">Final</div>
+              <div class="parcela-value" style="color:var(--gold);">R$ 1.370</div>
+              <div class="parcela-period">Parcelas 61ª – 120ª</div>
+            </div>
+          </div>
+
+          <div class="proposta-section-title">Estrutura Financeira</div>
+          <div class="proposta-dados">
+            <div class="dado-item">
+              <div class="dado-label">Capital Próprio</div>
+              <div class="dado-value">R$ 209.000</div>
+            </div>
+            <div class="dado-item">
+              <div class="dado-label">Lance Embutido</div>
+              <div class="dado-value">R$ 150.000</div>
+            </div>
+            <div class="dado-item">
+              <div class="dado-label">Saldo Devedor Final</div>
+              <div class="dado-value dado-value--green">R$ 226.000</div>
+            </div>
+            <div class="dado-item">
+              <div class="dado-label">Crédito Líquido</div>
+              <div class="dado-value dado-value--gold">R$ 350.000</div>
+            </div>
+            <div class="dado-item">
+              <div class="dado-label">Prazo Total Grupo</div>
+              <div class="dado-value">216 meses</div>
+            </div>
+            <div class="dado-item">
+              <div class="dado-label">Prazo do Cliente</div>
+              <div class="dado-value">120 meses</div>
+            </div>
+          </div>
+
+          <div class="historico">
+            <div class="historico-title">Histórico do Grupo</div>
+            <div class="historico-items">
+              <div class="historico-item">
+                <div class="historico-bullet"></div>
+                Grupo maduro — 35 assembleias realizadas com contemplações recorrentes
+              </div>
+              <div class="historico-item">
+                <div class="historico-bullet"></div>
+                Baixa concorrência: apenas 6 concorrentes com lances altos na última assembleia
+              </div>
+              <div class="historico-item">
+                <div class="historico-bullet"></div>
+                Ciclo favorável: Mai/25, Ago/25 e Jan/26 tiveram 3 lances livres contemplados — possibilidade de repetição em Mai/26
+              </div>
+              <div class="historico-item">
+                <div class="historico-bullet"></div>
+                Modalidade disponível: lance fixo e lance livre
+              </div>
+            </div>
+
+            <div class="lancamento-bar" style="margin-top:16px;">
+              <div style="font-size:10px;color:var(--text-muted);font-family:'DM Mono',monospace;letter-spacing:0.1em;margin-bottom:10px;">CONTEMPLAÇÕES / MÊS — LANCE LIVRE</div>
+              <div class="lancamento-months">
+                <div class="lancamento-month"><div class="lancamento-month-dot">3</div>Mai/25</div>
+                <div class="lancamento-month"><div class="lancamento-month-dot">2</div>Jun/25</div>
+                <div class="lancamento-month"><div class="lancamento-month-dot">2</div>Jul/25</div>
+                <div class="lancamento-month"><div class="lancamento-month-dot">3</div>Ago/25</div>
+                <div class="lancamento-month"><div class="lancamento-month-dot">3</div>Jan/26</div>
+                <div class="lancamento-month"><div class="lancamento-month-dot">2</div>Fev/26</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROPOSTA 2 -->
+      <div class="proposta-card reveal-right">
+        <div class="proposta-header-card">
+          <div class="proposta-grupo">Grupo 1786 · Rodobens</div>
+          <div class="proposta-credito"><span>R$</span>350.000</div>
+          <div class="proposta-desc">Crédito total disponível · Estratégia Agressiva</div>
+          <div style="margin-top:14px;">
+            <div class="taxa-badge">
+              <span class="taxa-old">28,5%</span> → 14,45% taxa adm.
+            </div>
+          </div>
+        </div>
+
+        <div class="proposta-body">
+          <div class="proposta-section-title">Estrutura de Parcelas</div>
+          <div class="parcelas-grid">
+            <div class="parcela-item">
+              <div class="parcela-phase">Pré-contempl.</div>
+              <div class="parcela-value">R$ 3.759</div>
+              <div class="parcela-period">Parcelas 1ª – 60ª</div>
+            </div>
+            <div class="parcela-item" style="border-color:rgba(45,191,78,0.3);">
+              <div class="parcela-phase">Pós-contempl.</div>
+              <div class="parcela-value" style="color:var(--axima-green);">R$ 1.653</div>
+              <div class="parcela-period">Parcelas 4ª – 60ª</div>
+            </div>
+            <div class="parcela-item">
+              <div class="parcela-phase">Final</div>
+              <div class="parcela-value" style="color:var(--gold);">R$ 810</div>
+              <div class="parcela-period">Parcelas 61ª – 120ª</div>
+            </div>
+          </div>
+
+          <div class="proposta-section-title">Estrutura Financeira</div>
+          <div class="proposta-dados">
+            <div class="dado-item">
+              <div class="dado-label">Capital Próprio</div>
+              <div class="dado-value">R$ 256.701</div>
+            </div>
+            <div class="dado-item">
+              <div class="dado-label">Saldo Devedor Inicial</div>
+              <div class="dado-value">R$ 400.575</div>
+            </div>
+            <div class="dado-item">
+              <div class="dado-label">Saldo Devedor Final</div>
+              <div class="dado-value dado-value--green">R$ 143.873</div>
+            </div>
+            <div class="dado-item">
+              <div class="dado-label">Crédito Utilizável</div>
+              <div class="dado-value dado-value--gold">R$ 350.000</div>
+            </div>
+            <div class="dado-item">
+              <div class="dado-label">Prazo Total Grupo</div>
+              <div class="dado-value">216 meses</div>
+            </div>
+            <div class="dado-item">
+              <div class="dado-label">Prazo do Cliente</div>
+              <div class="dado-value">120 meses</div>
+            </div>
+          </div>
+
+          <div class="historico">
+            <div class="historico-title">Histórico do Grupo</div>
+            <div class="historico-items">
+              <div class="historico-item">
+                <div class="historico-bullet historico-bullet--gold"></div>
+                Grupo mais maduro — 74 assembleias realizadas, ainda com chances de contemplação
+              </div>
+              <div class="historico-item">
+                <div class="historico-bullet historico-bullet--gold"></div>
+                Maior concorrência: 13 concorrentes no valor máximo do lance
+              </div>
+              <div class="historico-item">
+                <div class="historico-bullet historico-bullet--gold"></div>
+                Menor parcela final do portfólio — ideal para perfil agressivo de curto prazo
+              </div>
+              <div class="historico-item">
+                <div class="historico-bullet historico-bullet--gold"></div>
+                Lance parcelável em até 4x sem juros — maior flexibilidade de entrada
+              </div>
+            </div>
+
+            <div class="lancamento-bar" style="margin-top:16px;border-color:rgba(201,168,76,0.2);background:rgba(201,168,76,0.04);">
+              <div style="font-size:10px;color:var(--text-muted);font-family:'DM Mono',monospace;letter-spacing:0.1em;margin-bottom:10px;">CONTEMPLAÇÕES / MÊS — LANCE LIVRE</div>
+              <div class="lancamento-months">
+                <div class="lancamento-month" style="color:var(--gold);border-color:rgba(201,168,76,0.3);background:rgba(201,168,76,0.08);"><div class="lancamento-month-dot" style="background:var(--gold);">3</div>Jul/25</div>
+                <div class="lancamento-month" style="color:var(--gold);border-color:rgba(201,168,76,0.3);background:rgba(201,168,76,0.08);"><div class="lancamento-month-dot" style="background:var(--gold);">1</div>Jun/25</div>
+                <div class="lancamento-month" style="color:var(--gold);border-color:rgba(201,168,76,0.3);background:rgba(201,168,76,0.08);"><div class="lancamento-month-dot" style="background:var(--gold);">1</div>Ago/25</div>
+                <div class="lancamento-month" style="color:var(--gold);border-color:rgba(201,168,76,0.3);background:rgba(201,168,76,0.08);"><div class="lancamento-month-dot" style="background:var(--gold);">2</div>Out/25</div>
+                <div class="lancamento-month" style="color:var(--gold);border-color:rgba(201,168,76,0.3);background:rgba(201,168,76,0.08);"><div class="lancamento-month-dot" style="background:var(--gold);">1</div>Jan/26</div>
+                <div class="lancamento-month" style="color:var(--gold);border-color:rgba(201,168,76,0.3);background:rgba(201,168,76,0.08);"><div class="lancamento-month-dot" style="background:var(--gold);">1</div>Fev/26</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── COMPARATIVO ─── -->
+<section id="comparativo">
+  <div class="container">
+    <div class="comp-header reveal">
+      <div class="section-label" style="margin-bottom:12px;">Análise Comparativa</div>
+      <h2 class="section-title" style="font-size:clamp(36px,4vw,52px);">Proposta a proposta,<br>critério por critério.</h2>
+    </div>
+
+    <div class="comp-table reveal">
+      <div class="comp-row comp-header-row">
+        <div class="comp-cell"><span class="comp-header-label">Critério de Análise</span></div>
+        <div class="comp-cell"><span class="comp-header-label">Proposta 1 · 1860</span></div>
+        <div class="comp-cell"><span class="comp-header-label">Proposta 2 · 1786</span></div>
+      </div>
+      <div class="comp-row">
+        <div class="comp-cell"><span class="comp-criterion">Crédito disponível</span></div>
+        <div class="comp-cell"><div class="comp-value"><div class="comp-dot dot-green"></div>R$ 500.000</div></div>
+        <div class="comp-cell"><div class="comp-value"><div class="comp-dot dot-yellow"></div>R$ 350.000</div></div>
+      </div>
+      <div class="comp-row">
+        <div class="comp-cell"><span class="comp-criterion">Taxa de administração</span></div>
+        <div class="comp-cell"><div class="comp-value"><div class="comp-dot dot-yellow"></div>17%</div></div>
+        <div class="comp-cell"><div class="comp-value"><div class="comp-dot dot-green"></div>14,45%</div></div>
+      </div>
+      <div class="comp-row">
+        <div class="comp-cell"><span class="comp-criterion">Parcela final</span></div>
+        <div class="comp-cell"><div class="comp-value"><div class="comp-dot dot-yellow"></div>R$ 1.370/mês</div></div>
+        <div class="comp-cell"><div class="comp-value"><div class="comp-dot dot-green"></div>R$ 810/mês</div></div>
+      </div>
+      <div class="comp-row">
+        <div class="comp-cell"><span class="comp-criterion">Saldo devedor final</span></div>
+        <div class="comp-cell"><div class="comp-value"><div class="comp-dot dot-yellow"></div>R$ 226.000</div></div>
+        <div class="comp-cell"><div class="comp-value"><div class="comp-dot dot-green"></div>R$ 143.873</div></div>
+      </div>
+      <div class="comp-row">
+        <div class="comp-cell"><span class="comp-criterion">Previsibilidade de contemplação</span></div>
+        <div class="comp-cell"><div class="comp-value"><div class="comp-dot dot-green"></div>Alta — 6 concorrentes</div></div>
+        <div class="comp-cell"><div class="comp-value"><div class="comp-dot dot-yellow"></div>Média — 13 concorrentes</div></div>
+      </div>
+      <div class="comp-row">
+        <div class="comp-cell"><span class="comp-criterion">Maturidade do grupo</span></div>
+        <div class="comp-cell"><div class="comp-value"><div class="comp-dot dot-green"></div>35 assembleias</div></div>
+        <div class="comp-cell"><div class="comp-value"><div class="comp-dot dot-blue"></div>74 assembleias</div></div>
+      </div>
+      <div class="comp-row">
+        <div class="comp-cell"><span class="comp-criterion">Flexibilidade do lance</span></div>
+        <div class="comp-cell"><div class="comp-value"><div class="comp-dot dot-yellow"></div>Fixo + embutido</div></div>
+        <div class="comp-cell"><div class="comp-value"><div class="comp-dot dot-green"></div>Parcelável 4x s/ juros</div></div>
+      </div>
+      <div class="comp-row">
+        <div class="comp-cell"><span class="comp-criterion">Perfil da estratégia</span></div>
+        <div class="comp-cell"><div class="comp-value"><div class="comp-dot dot-green"></div>Equilibrada · Menor risco</div></div>
+        <div class="comp-cell"><div class="comp-value"><div class="comp-dot dot-yellow"></div>Agressiva · Maior capital</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── TRANSPARÊNCIA ─── -->
+<section id="transparencia">
+  <div class="container">
+    <div class="transp-header reveal">
+      <div class="section-label" style="margin-bottom:12px;">Educação & Transparência</div>
+      <h2 class="section-title" style="font-size:clamp(36px,4vw,52px);">Você precisa entender<br>antes de decidir.</h2>
+    </div>
+
+    <div class="transp-grid">
+      <div class="transp-card reveal">
+        <div class="transp-card-num">— 01</div>
+        <div class="transp-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--axima-green)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 9h18M9 21V9"/></svg>
+        </div>
+        <div class="transp-card-title">O que é consórcio?</div>
+        <p class="transp-card-text">
+          Um sistema de autofinanciamento coletivo onde um grupo de pessoas contribui mensalmente para um fundo comum. Periodicamente, créditos são distribuídos por sorteio ou lance — sem juros de financiamento, com taxa administrativa.
+        </p>
+      </div>
+      <div class="transp-card reveal" style="transition-delay:0.1s;">
+        <div class="transp-card-num">— 02</div>
+        <div class="transp-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--axima-green)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+        </div>
+        <div class="transp-card-title">Como funciona a contemplação?</div>
+        <p class="transp-card-text">
+          Acontece por sorteio ou lance livre/fixo/limitado em assembleias mensais — realizadas no primeiro dia útil após o vencimento do boleto. Não há garantia de contemplação em data específica: o lance aumenta a probabilidade, mas não é certeza.
+        </p>
+      </div>
+      <div class="transp-card reveal" style="transition-delay:0.2s;">
+        <div class="transp-card-num">— 03</div>
+        <div class="transp-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--axima-green)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <div class="transp-card-title">Reajuste e indexação</div>
+        <p class="transp-card-text">
+          Parcelas e crédito são reajustados periodicamente pelo INCC/FGV. Isso protege o poder de compra do crédito ao longo do tempo — seu R$ 500k hoje mantém equivalência real no futuro.
+        </p>
+      </div>
+      <div class="transp-card reveal" style="transition-delay:0.0s;">
+        <div class="transp-card-num">— 04</div>
+        <div class="transp-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--axima-green)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="1"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <div class="transp-card-title">Lance embutido</div>
+        <p class="transp-card-text">
+          Você pode utilizar até 30% do crédito como parte do lance — sem desembolso adicional imediato. Esse valor é descontado do crédito recebido, reduzindo o capital líquido disponível para o imóvel.
+        </p>
+      </div>
+      <div class="transp-card reveal" style="transition-delay:0.1s;">
+        <div class="transp-card-num">— 05</div>
+        <div class="transp-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--axima-green)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="transp-card-title">Riscos e variáveis</div>
+        <p class="transp-card-text">
+          O prazo de contemplação é variável. Grupos com histórico consistente reduzem a incerteza, mas não a eliminam. A estratégia de lance calibrado com base em dados reais minimiza o risco — nunca o zera.
+        </p>
+      </div>
+      <div class="transp-card reveal" style="transition-delay:0.2s;">
+        <div class="transp-card-num">— 06</div>
+        <div class="transp-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--axima-green)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        </div>
+        <div class="transp-card-title">Contrato e obrigações</div>
+        <p class="transp-card-text">
+          Pagamentos via boleto bancário até dia 10 de cada mês. Prazo total do grupo: 216 meses, com seguro prestamista incluso. A Áxima acompanha todo o processo: análise, lance, pagamentos e uso do crédito.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CONTRATO / SERVIÇOS ─── -->
+<section id="contrato">
+  <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:60%;max-width:700px;pointer-events:none;user-select:none;opacity:0.035;filter:grayscale(1) brightness(10);">
+    <img src="https://i.ibb.co/fVStvtYS/1-removebg-preview.png" alt="" style="width:100%;display:block;">
+  </div>
+  <div class="container">
+    <div class="contrato-grid">
+      <div class="reveal-left">
+        <div class="section-label" style="margin-bottom:12px;">Nosso Compromisso</div>
+        <h2 class="section-title" style="font-size:clamp(36px,4vw,52px);">O que a Áxima<br>entrega para você.</h2>
+        <div class="divider"></div>
+        <p class="section-desc">
+          Mais do que uma proposta comercial, entregamos um contrato de consultoria com serviços claros, responsabilidades definidas e acompanhamento próximo do início ao fim.
+        </p>
+
+        <div style="margin-top:36px;">
+          <div class="info-list">
+            <div class="info-item">
+              <div class="info-arrow">→</div>
+              <div>
+                <div class="info-title">Análise e gestão do consórcio</div>
+                <div class="info-text">Escolha do grupo ideal, calibragem do lance, acompanhamento de assembleias e resultados.</div>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-arrow">→</div>
+              <div>
+                <div class="info-title">Execução de lances</div>
+                <div class="info-text">Estratégia técnica de oferta para maximizar probabilidade dentro do grupo selecionado.</div>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-arrow">→</div>
+              <div>
+                <div class="info-title">Acompanhamento de pagamentos</div>
+                <div class="info-text">Gestão dos boletos mensais e comunicação ativa sobre vencimentos e mudanças.</div>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-arrow">→</div>
+              <div>
+                <div class="info-title">Pesquisa e gestão do imóvel</div>
+                <div class="info-text">Após a contemplação, suporte para uso do crédito, busca de imóvel e fechamento do negócio.</div>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-arrow">→</div>
+              <div>
+                <div class="info-title">Suporte para obtenção de crédito</div>
+                <div class="info-text">Documentação, processos junto à Rodobens e orientação técnica durante toda a jornada.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="contrato-visual reveal-right">
+        <div style="font-size:10px;font-family:'DM Mono',monospace;letter-spacing:0.15em;color:var(--axima-green);margin-bottom:24px;">CONTRATO DE CONSULTORIA</div>
+        <div class="contrato-badge-list">
+          <div class="contrato-badge-item">
+            <div class="contrato-badge-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--axima-green)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            </div>
+            <div>
+              <div class="contrato-badge-title">TLC Soluções Financeiras LTDA</div>
+              <div class="contrato-badge-text">CNPJ: 54.880.351/0001-63 · Responsável técnico pela execução</div>
+            </div>
+          </div>
+          <div class="contrato-badge-item">
+            <div class="contrato-badge-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--axima-green)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+            </div>
+            <div>
+              <div class="contrato-badge-title">Pagamentos</div>
+              <div class="contrato-badge-text">Parcelas via boleto bancário até o dia 10 de cada mês</div>
+            </div>
+          </div>
+          <div class="contrato-badge-item">
+            <div class="contrato-badge-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--axima-green)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
+            <div>
+              <div class="contrato-badge-title">Assembleias</div>
+              <div class="contrato-badge-text">Realizadas no 1º dia útil após vencimento do boleto</div>
+            </div>
+          </div>
+          <div class="contrato-badge-item">
+            <div class="contrato-badge-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--axima-green)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+            </div>
+            <div>
+              <div class="contrato-badge-title">Prazo e reajuste</div>
+              <div class="contrato-badge-text">216 meses · Reajuste pelo INCC/FGV · Seguro prestamista incluso</div>
+            </div>
+          </div>
+          <div class="contrato-badge-item">
+            <div class="contrato-badge-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--axima-green)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="1"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </div>
+            <div>
+              <div class="contrato-badge-title">Confidencialidade</div>
+              <div class="contrato-badge-text">Todas as informações estratégicas e financeiras são mantidas em sigilo absoluto</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CTA FINAL ─── -->
+<section id="cta">
+  <div class="cta-bg"></div>
+  <div class="container">
+    <div class="cta-content reveal">
+      <div style="margin-bottom: 40px;">
+        <img src="https://i.ibb.co/VW5QDnfx/2-removebg-preview.png" alt="Áxima" style="height: 200px; width: auto; opacity: 1; filter: brightness(1.3) drop-shadow(0 0 40px rgba(45,191,78,0.25));">
+      </div>
+      <div class="cta-label">Próximo passo</div>
+      <h2 class="cta-title">
+        João Vitor, sua obra<br>merece uma base <em>sólida.</em>
+      </h2>
+      <p class="cta-subtitle">
+        A estratégia está pronta. O crédito está estruturado. O próximo passo é garantir que a reforma da sua casa siga com segurança financeira até o fim.
+      </p>
+      <a href="https://wa.me/5517996592912?text=Vamos%20come%C3%A7ar%20%F0%9F%9A%80" class="cta-btn" target="_blank">
+        Quero Avançar com a Estratégia
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3.75 9h10.5M9.75 5.25L13.5 9l-3.75 3.75" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <p class="cta-note">Nenhuma decisão será tomada sem sua aprovação. Consulta sem compromisso.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <img src="https://i.ibb.co/VW5QDnfx/2-removebg-preview.png" alt="Áxima" style="height:22px;width:auto;opacity:0.5;">
+        <span class="footer-logo-text">Geovanna · Consultoria Financeira</span>
+      </div>
+      <div class="footer-note">© 2026 · Estratégia Imobiliária · Rodobens</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ─── NAV SCROLL ───
+  const nav = document.getElementById('main-nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  }, { passive: true });
+
+  // ─── READING PROGRESS BAR ───
+  const progressBar = document.createElement('div');
+  progressBar.style.cssText = `
+    position: fixed; top: 0; left: 0; height: 2px; width: 0%;
+    background: linear-gradient(90deg, #2DBF4E, #1A8FA0);
+    z-index: 9999; transition: width 0.1s linear; pointer-events: none;
+  `;
+  document.body.appendChild(progressBar);
+
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    progressBar.style.width = (scrollTop / docHeight * 100) + '%';
+  }, { passive: true });
+
+  // ─── PARALLAX HERO ───
+  const heroBg = document.querySelector('.hero-bg');
+  const heroWatermark = document.querySelector('#hero > div[style*="translate(-50%"]');
+  const heroTitle = document.querySelector('.hero-title');
+  const heroSubtitle = document.querySelector('.hero-subtitle');
+  const heroEyebrow = document.querySelector('.hero-eyebrow');
+
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    if (y < window.innerHeight) {
+      const slow = y * 0.25;
+      const medium = y * 0.12;
+      const fast = y * 0.35;
+      if (heroWatermark) heroWatermark.style.transform = `translate(-50%, calc(-50% + ${slow}px))`;
+      if (heroTitle) heroTitle.style.transform = `translateY(${medium}px)`;
+      if (heroSubtitle) heroSubtitle.style.transform = `translateY(${medium * 1.3}px)`;
+      if (heroEyebrow) heroEyebrow.style.transform = `translateY(${medium * 0.8}px)`;
+    }
+  }, { passive: true });
+
+  // ─── REVEAL ANIMATIONS ───
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, entry.target.dataset.delay || 0);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+
+  document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach((el, i) => {
+    observer.observe(el);
+  });
+
+  // ─── STAGGER TRANSP CARDS ───
+  document.querySelectorAll('.transp-grid .transp-card').forEach((card, i) => {
+    card.dataset.delay = i * 80;
+    card.style.transitionDelay = `${i * 0.08}s`;
+  });
+
+  // ─── ANIMATED COUNTERS ───
+  function animateCounter(el, target, prefix = '', suffix = '', decimals = 0) {
+    const duration = 1800;
+    const start = performance.now();
+    const update = (now) => {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const value = eased * target;
+      el.textContent = prefix + value.toLocaleString('pt-BR', { minimumFractionDigits: decimals, maximumFractionDigits: decimals }) + suffix;
+      if (progress < 1) requestAnimationFrame(update);
+    };
+    requestAnimationFrame(update);
+  }
+
+  const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !entry.target.dataset.counted) {
+        entry.target.dataset.counted = true;
+        const el = entry.target;
+        const raw = el.dataset.target;
+        const prefix = el.dataset.prefix || '';
+        const suffix = el.dataset.suffix || '';
+        const decimals = parseInt(el.dataset.decimals || '0');
+        animateCounter(el, parseFloat(raw), prefix, suffix, decimals);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  document.querySelectorAll('[data-target]').forEach(el => counterObserver.observe(el));
+
+  // ─── SMOOTH MAGNETIC HOVER ON CTA BTN ───
+  const ctaBtn = document.querySelector('.cta-btn');
+  if (ctaBtn) {
+    ctaBtn.addEventListener('mousemove', (e) => {
+      const rect = ctaBtn.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      ctaBtn.style.transform = `translate(${x * 0.12}px, ${y * 0.12}px) translateY(-3px)`;
+    });
+    ctaBtn.addEventListener('mouseleave', () => {
+      ctaBtn.style.transform = '';
+    });
+  }
+
+  // ─── SCROLL-TRIGGERED SECTION TINT ───
+  const sections = document.querySelectorAll('section[id]');
+  const sectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        document.documentElement.style.setProperty('--active-section', `"${entry.target.id}"`);
+      }
+    });
+  }, { threshold: 0.3 });
+  sections.forEach(s => sectionObserver.observe(s));
+
+  // ─── PARCELA CARDS HOVER TILT ───
+  document.querySelectorAll('.proposta-card').forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      card.style.transform = `perspective(1000px) rotateY(${x * 4}deg) rotateX(${-y * 4}deg) translateY(-4px)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+      card.style.transition = 'transform 0.5s cubic-bezier(.25,.46,.45,.94), border-color 0.3s';
+    });
+    card.addEventListener('mouseenter', () => {
+      card.style.transition = 'transform 0.1s ease, border-color 0.3s';
+    });
+  });
+
+  // ─── COMP TABLE ROW HIGHLIGHT ON SCROLL ───
+  document.querySelectorAll('.comp-row:not(.comp-header-row)').forEach((row, i) => {
+    row.style.opacity = '0';
+    row.style.transform = 'translateX(-16px)';
+    row.style.transition = `opacity 0.5s ${i * 0.06}s, transform 0.5s ${i * 0.06}s`;
+    const ro = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        row.style.opacity = '1';
+        row.style.transform = 'translateX(0)';
+        ro.disconnect();
+      }
+    }, { threshold: 0.2 });
+    ro.observe(row);
+  });
+</script>
+
+</body>
+</html>
